@@ -1,0 +1,24 @@
+{
+  "name": "meetmatt/colla",
+  "description": "Collaborative 360-degree review",
+  "license": "proprietary",
+
+  "require": {
+
+  },
+
+  "require-dev": {
+
+  },
+
+  "autoload": {
+    "psr-4": {
+      "MeetMatt\\Colla\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MeetMatt\\Colla\\Tests\\Unit\\": "tests/unit/"
+    }
+  }
+}
