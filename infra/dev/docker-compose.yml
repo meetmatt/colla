@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  proxy:
+    image: colla_proxy:latest
+    build:
+      context: proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  nginx:
+    image: colla_nginx:latest
+    build:
+      context: nginx
+    environment:
+      - VIRTUAL_HOST=dev.colla.io
+    depends_on:
+      - proxy
+      - php
+    volumes:
+      - ../../code/frontend/dist:/static:cached
+      - ../../code/api:/api:cached
+
+  php:
+    image: colla_php:latest
+    build:
+      context: php
+    depends_on:
+      - mysql
+    volumes:
+      - ../../code/api:/api:cached
+
+  mysql:
+    image: colla_mysql:latest
+    build:
+      context: mysql
+    environment:
+      - MYSQL_DATABASE=colla
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - .docker/mysql:/var/lib/mysql:delegated
+
