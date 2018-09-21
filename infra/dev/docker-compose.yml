@@ -21,8 +21,8 @@ services:
       - proxy
       - php
     volumes:
-      - ../../code/frontend/dist:/static:cached
-      - ../../code/api:/api:cached
+      - ../../code/frontend:/frontend:ro
+      - ../../code/api:/api
 
   php:
     image: colla_php:latest
@@ -31,7 +31,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ../../code/api:/api:cached
+      - ../../code/api:/api
 
   mysql:
     image: colla_mysql:latest
@@ -41,5 +41,5 @@ services:
       - MYSQL_DATABASE=colla
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
-      - .docker/mysql:/var/lib/mysql:delegated
+      - .docker/mysql:/var/lib/mysql
 
