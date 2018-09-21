@@ -16,6 +16,9 @@ doctrine:
             collate: utf8mb4_unicode_ci
 
         url: '%env(resolve:DATABASE_URL)%'
+        options:
+            # three seconds is more that enough to connect to any database
+            !php/const PDO::ATTR_TIMEOUT: 3
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
