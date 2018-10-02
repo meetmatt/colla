@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/api/v1/status", name="metrics_")
  */
-class MetricsController extends ApiController
+class StatusController extends ApiController
 {
     /**
      * @Route("/ping", methods="GET")
@@ -19,11 +19,13 @@ class MetricsController extends ApiController
      */
     public function ping(): Response
     {
-        return new Response('pong');
+        return new Response('Pong! Authenticated as '.$this->getUser()->getEmail());
     }
 
     /**
      * @Route("/health", methods="GET")
+     *
+     * @param Connection $connection
      *
      * @return JsonResponse
      */
@@ -32,7 +34,7 @@ class MetricsController extends ApiController
         $databasePingResult = $connection->ping();
         $status = $databasePingResult;
 
-        return $this->respond(
+        return new JsonResponse(
             [
                 'status'    => $status ? 'OK' : 'FAIL',
                 'database'  => $databasePingResult ? 'OK' : 'FAIL',

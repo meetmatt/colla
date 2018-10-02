@@ -7,6 +7,14 @@
         "php": "^7.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "friendsofsymfony/rest-bundle": "^2.4",
+        "gesdinet/jwt-refresh-token-bundle": "^0.5.3",
+        "gfreeau/get-jwt-bundle": "^2.0",
+        "jms/serializer-bundle": "^2.4",
+        "lcobucci/jwt": "^3.2",
+        "lexik/jwt-authentication-bundle": "^2.5",
+        "ramsey/uuid-doctrine": "^1.5",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "^4.1",
         "symfony/flex": "^1.1",
@@ -62,7 +70,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": "true",
             "require": "4.1.*"
         }
     }
