@@ -16,3 +16,13 @@ services:
   MeetMatt\Colla\Controller\:
     resource: '../src/Controller'
     tags: ['controller.service_arguments']
+
+  mhujer.jms_serializer.uuid.uuid_serializer_handler:
+    class: Mhujer\JmsSerializer\Uuid\UuidSerializerHandler
+    tags:
+      - { name: jms_serializer.subscribing_handler }
+
+  meet_matt.colla.event.jwt_created_listener:
+    class: MeetMatt\Colla\EventListener\JWTCreatedListener
+    tags:
+      - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }

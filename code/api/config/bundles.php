@@ -11,6 +11,7 @@ return [
     Gesdinet\JWTRefreshTokenBundle\GesdinetJWTRefreshTokenBundle::class      => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class                          => ['all' => true],
     FOS\RestBundle\FOSRestBundle::class                                      => ['all' => true],
+
     // dev
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class                => ['dev' => true],
     Symfony\Bundle\TwigBundle\TwigBundle::class                              => ['dev' => true],

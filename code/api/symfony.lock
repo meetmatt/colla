@@ -119,6 +119,9 @@
             "ref": "509b1542f3180a1cfe248ade8b7bf5092c2d4127"
         }
     },
+    "mhujer/jms-serializer-uuid": {
+        "version": "2.0.0"
+    },
     "namshi/jose": {
         "version": "7.2.3"
     },

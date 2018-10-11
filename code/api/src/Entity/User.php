@@ -4,12 +4,15 @@ namespace MeetMatt\Colla\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\AccessorOrder;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\User\JWTUserInterface;
+use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="`user`")
- * @ORM\Entity(repositoryClass="MeetMatt\Colla\Repository\UserRepository")
+ * @ORM\Entity()
+ * @AccessorOrder("custom", custom = {"uuid", "email", "isActive", "roles"})
  */
 class User implements UserInterface, JWTUserInterface
 {
@@ -23,7 +26,7 @@ class User implements UserInterface, JWTUserInterface
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=255)
      * @Serializer\Exclude()
      *
      * @var string
@@ -31,6 +34,8 @@ class User implements UserInterface, JWTUserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="json", length=255)
+     *
      * @var string[]
      */
     private $roles;
@@ -44,9 +49,10 @@ class User implements UserInterface, JWTUserInterface
 
     public function __construct(string $email, array $roles = ['ROLE_USER'])
     {
-        $this->isActive = true;
+        $this->uuid = Uuid::uuid4();
         $this->email = $email;
         $this->roles = $roles;
+        $this->isActive = true;
     }
 
     public function getEmail(): string
@@ -59,9 +65,14 @@ class User implements UserInterface, JWTUserInterface
         return $this->getEmail();
     }
 
-    public function getPassword(): string
+    public function getPassword()
     {
         return $this->password;
+    }
+
+    public function updatePassword(string $password)
+    {
+        $this->password = $password;
     }
 
     /**
@@ -70,6 +81,29 @@ class User implements UserInterface, JWTUserInterface
     public function getRoles(): array
     {
         return $this->roles;
+    }
+
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function deactivate(): void
+    {
+        $this->isActive = false;
+    }
+
+    public function activate(): void
+    {
+        $this->isActive = true;
     }
 
     public function getSalt()
@@ -81,11 +115,23 @@ class User implements UserInterface, JWTUserInterface
     {
     }
 
-    public static function createFromPayload($email, array $payload)
+    public static function createFromPayload($username, array $payload)
     {
-        return new self(
-            $email,
-            $payload['roles'] ?? ['ROLE_USER']
-        );
+        $user = new self($username);
+
+        if (isset($payload['id'])) {
+            $user->id = $payload['id'];
+        }
+        if (isset($payload['roles'])) {
+            $user->roles = $payload['roles'];
+        }
+        if (isset($payload['is_active'])) {
+            $user->isActive = $payload['is_active'];
+        }
+        if (isset($payload['uuid'])) {
+            $user->uuid = Uuid::fromString($payload['uuid']);
+        }
+
+        return $user;
     }
 }
