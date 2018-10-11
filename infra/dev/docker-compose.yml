@@ -37,6 +37,8 @@ services:
     image: colla_mysql:latest
     build:
       context: mysql
+    ports:
+      - 13306:3306
     environment:
       - MYSQL_DATABASE=colla
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes

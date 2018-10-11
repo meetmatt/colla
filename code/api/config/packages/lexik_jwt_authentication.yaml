@@ -1,0 +1,10 @@
+lexik_jwt_authentication:
+  # openssl genrsa -out config/jwt/private.pem -aes256 4096
+  secret_key: '%env(resolve:JWT_SECRET_KEY)%'
+  # openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
+  public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
+  pass_phrase: '%env(JWT_PASSPHRASE)%'
+  token_ttl: 3600
+  encoder:
+    service: lexik_jwt_authentication.encoder.lcobucci
+    signature_algorithm: RS512
