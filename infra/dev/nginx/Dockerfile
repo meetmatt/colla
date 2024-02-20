@@ -1,4 +1,4 @@
-FROM nginx:1.20.1-alpine
+FROM nginx:1.25.1-alpine
 
 # leave only /etc/nginx/mime.types
 RUN mkdir /etc/nginx-tmp \
